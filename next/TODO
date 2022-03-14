@@ -6,4 +6,4 @@ In Progress:
     - Lexer
 
 Bugs:
-    - When there is a line space, i.e (`\n`) at the start of a line, the lexer breaks.
+    - Fixed ~~When there is a line space, i.e (`\n`) at the start of a line, the lexer breaks.~~

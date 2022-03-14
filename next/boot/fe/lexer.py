@@ -57,11 +57,11 @@ class Lexer:
 
         cur_letter += 1
 
-        token = None
-        value = None
-
         # NOTE: This is only for builtin functions, and is not finished.
         for letter in letters:
+            token = None
+            value = None
+
             if letter == ':':
                 token = 'METHOD'
                 value = None
@@ -69,12 +69,10 @@ class Lexer:
             elif letter == '/':
                 skip = self._parse_comment()
                 if skip == True:
-                    self.scroll_up()
-                    return
+                    pass
 
             elif letter in ' \t':
-                self.scroll_up()
-                return
+                pass
 
             elif letter in nums.split(' '):
                 token = 'INTEGER'
@@ -89,8 +87,7 @@ class Lexer:
                 value = self.lines[self.line_num + 1]
             
             elif letter == '\n':
-                self.scroll_up()
-                return
+                pass
             
             elif letter == '=':
                 token = 'EQ'
@@ -111,5 +108,7 @@ class Lexer:
             else:
                 raise NotImplementedError(f'Invalid Syntax: {letter} is an illegal character')
 
-            self.tokens.append(Token(token, value))
+            if token is not None:
+                self.tokens.append(Token(token, value))
+
             self.last_letter = letter
