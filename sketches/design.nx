@@ -1,0 +1,6 @@
+# -*- python -*-
+
+y = 'x'
+
+def main():
+    print('Hello, World!') # type: ignore
