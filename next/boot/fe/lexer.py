@@ -77,26 +77,26 @@ class Lexer:
             elif letter in nums.split(' '):
                 token = 'INTEGER'
                 value = int(letter)
-            
+
             elif letter == '.' and self.last_letter in nums.split(' '):
                 token = 'FLOAT'
                 value = float(letter)
-            
+
             elif letter == '!':
                 token = 'MACRO'
                 value = self.lines[self.line_num + 1]
-            
+
             elif letter == '\n':
                 pass
-            
+
             elif letter == '=':
                 token = 'EQ'
                 value = None
-            
+
             elif letter == '==':
                 token = 'EQEQ'
                 value = None
-            
+
             elif letter == '\'' or letter == '"':
                 token = 'QUOTE'
                 value = None
