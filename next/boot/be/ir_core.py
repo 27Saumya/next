@@ -21,17 +21,14 @@ class Configurator:
         self.binding.initialize()
         self.binding.initialize_native_target()
         self.binding.initialize_native_asmprinter()
-        self.__init()
         self._initiate_execution_engine()
-        self._funcs = Delarator(self.module, self.binding)
-
-    def __init(self):
         self.module = ir.Module(name=__file__)
         self.module.triple = self.binding.get_default_triple()
-        _fn_t = ir.FunctionType(ir.VoidType(), [])
+        _fn_t = ir.FunctionType(ir.VoidType(), [], False)
         main_fn = ir.Function(self.module, _fn_t, 'main')
-        block = main_fn.append_basic_block('entry')
+        block = main_fn.append_basic_block(name='entry')
         self.builder = ir.IRBuilder(block)
+        self._funcs = Delarator(self.module, self.binding)
 
     def _initiate_execution_engine(self):
         t = self.binding.Target.from_default_triple()
@@ -47,8 +44,7 @@ class Configurator:
         try:
             mod.verify()
         except RuntimeError:
-            # TODO: Handle this
-            ...
+            raise
 
         self._engine.add_module(mod)
         self._engine.finalize_object()
@@ -58,12 +54,7 @@ class Configurator:
     def create_output(self, fp: str):
         try:
             with open(file=fp, mode='x') as _fp:
-                _fp.write('''Signature: 8a477f597d28d172789f06886806bc55
-# This file is a cache directory tag created by next.
-# For information about cache directory tags, see:
-#	http://www.brynosaurus.com/cachedir/
-
-''')
+                self.compile_()
                 _fp.write(str(self.module))
         except FileExistsError:
             os.unlink(fp)

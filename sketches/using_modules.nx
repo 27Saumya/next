@@ -1,0 +1,4 @@
+metro std::os
+
+prod = os::getenv("prod", "false")
+print(prod)

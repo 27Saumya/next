@@ -11,126 +11,72 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-from typing import List
-from .token import Token
-from .decs import nums
+import rply
 
-STRINGS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-strings = 'abcdefghijklmnopqrstuvwxyz'
+lexer = rply.LexerGenerator()
 
-class Lexer:
-    def __init__(self, f: str):
-        self.line_num = -1
-        self._lines = f.split(' ')
-        self.lines = self._lines
-        self.tokens: List[Token] = []
-        self.last_letter = ''
+NUMS = '1234567890'
+STRINGS = 'abcdefghijklmnopqrstuvwxyz'
+STRINGS_ = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 
-    def run(self):
-        self.scroll_up()
+# hard builtins
+lexer.add('PLUS', r'\+')
+lexer.add('MINUS', r'-')
+lexer.add('IF', r'if')
+lexer.add('METHOD', r'::')
+lexer.add('OPEN_PAREN', r'\(')
+lexer.add('CLOSE_PAREN', '\)')
+lexer.add('OPEN_FN', '{')
+lexer.add('CLOSE_FN', '}')
+lexer.add('DEF_FN', 'def')
+lexer.add('STRING_STATEMENT', "'")
+lexer.add('STRING_STATEMENT', '"')
+lexer.add('IGNORE', '//')
+lexer.add('SPACE', ' ')
+lexer.add('EQ', '=')
+lexer.add('EQEQ', '==')
+lexer.add('STARTER', ':')
+lexer.add('METRO', 'metro')
+lexer.add('INDENT', r'\n')
 
-    def _parse_method(self):
-        next_line = self.lines[self.line_num + 1]
-        if next_line != ':':
-            raise RuntimeError(f'Syntax Mispell at line {self.line_num}')
-        else:
-            return 'METHOD', next_line[-1]
+# soft builtins
+lexer.add('PRINT', 'print')
 
-    def _parse_comment(self):
-        next_line = self.lines[self.line_num + 1]
-        if next_line != '/':
-            raise RuntimeError(f'Syntax Mispell at line {self.line_num}')
-        else:
-            return True
-    
-    def scroll_up(self) -> None:
-        self.line_num += 1
+# constants
+for num in NUMS:
+    lexer.add('INTEGER', num)
 
-        try:
-            _line = self.lines[self.line_num]
-        except IndexError:
-            # we have reached the end
-            return
+for string in STRINGS:
+    lexer.add('STRING', string)
 
-        letters = _line
+for string in STRINGS_:
+    lexer.add('STRING', string)
 
-        cur_letter = -1
+# ignore
+lexer.ignore(r'\n')
+lexer.ignore(r'\s+')
 
-        # NOTE: This is only for builtin functions, and is not finished.
-        for letter in letters:
-            cur_letter += 1
-            token = None
-            value = None
-
-            if letter == ':':
-                token = 'METHOD'
-                value = None
-
-            elif letter == '/':
-                skip = self._parse_comment()
-                if skip == True:
-                    pass
-
-            elif letter in ' \t':
-                pass
-
-            elif letter in nums.split(' '):
-                token = 'INTEGER'
-                value = int(letter)
-
-            elif letter == '.' and self.last_letter in nums.split(' '):
-                token = 'FLOAT'
-                value = float(letter)
-
-            elif letter == '!':
-                token = 'MACRO'
-                value = self.lines[self.line_num + 1]
-
-            elif letter == '\n':
-                pass
-
-            elif letter == '=':
-                token = 'EQ'
-                value = None
-
-            elif letter == '\'' or letter == '"':
-                token = 'QUOTE'
-                value = None
-
-            elif letter in strings or letter in STRINGS:
-                token = 'STRING'
-                value = letter
-
-            elif letter == '(':
-                token = 'L-PAREN'
-                value = None
-            
-            elif letter == ')':
-                token = 'R-PAREN'
-                value = None
-
-            elif letter == '+':
-                token = 'PLUS'
-                value = None
-
-            elif letter == '-':
-                token = 'NEGATIVE'
-                value = None
-
-            elif letter == ',':
-                token = 'NEXT'
-                value = None
-
-            elif letter == '{':
-                token = 'METHOD-START'
-            
-            elif letter == '}':
-                token = 'METHOD-END'
-
-            else:
-                raise NotImplementedError(f'Invalid Syntax: {letter} is an illegal character')
-
-            if token is not None:
-                self.tokens.append(Token(token, value))
-
-            self.last_letter = letter
+listed = [
+    'STRING',
+    'SPACE',
+    'IGNORE',
+    'EQ',
+    'EQEQ',
+    'STARTER',
+    'METRO',
+    'STRING_STATEMENT',
+    'DEF_FN',
+    'OPEN_FN',
+    'CLOSE_FN',
+    'METHOD',
+    'IF',
+    'PLUS',
+    'MINUS',
+    'PRINT',
+    'INTEGER',
+    'OPEN_PAREN',
+    'CLOSE_PAREN',
+    'OPEN_FN',
+    'CLOSE_FN',
+    'INDENT'
+]

@@ -1,4 +1,4 @@
-y = 'x'
+y = 'x' // also works with "x" in the same fashion.
 
 def main() {
     print!(y)

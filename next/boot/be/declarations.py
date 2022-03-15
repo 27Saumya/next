@@ -24,11 +24,4 @@ class Delarator:
     def print_(self):
         voidptr_ty = ir.IntType(8).as_pointer()
         print_ty = ir.FunctionType(ir.IntType(32), [voidptr_ty], True)
-        self.print = ir.Function(self.module, print_ty, 'print')
-
-    def _declare_builtins(self):
-        self.int_ = ir.IntType(128)
-        self.float_ = ir.FloatType()
-
-    def _declare_constant(self, type: ir.Type, value: Any):
-        return ir.Constant(type, value)
+        self.print = ir.Function(self.module, print_ty, 'printf')
