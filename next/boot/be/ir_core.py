@@ -11,6 +11,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+import os
 from llvmlite import ir, binding
 from .declarations import Delarator
 
@@ -55,5 +56,17 @@ class Configurator:
         return mod
 
     def create_output(self, fp: str):
-        with open(file=fp, mode='x') as _fp:
-            _fp.write(str(self.module))
+        try:
+            with open(file=fp, mode='x') as _fp:
+                _fp.write('''Signature: 8a477f597d28d172789f06886806bc55
+# This file is a cache directory tag created by next.
+# For information about cache directory tags, see:
+#	http://www.brynosaurus.com/cachedir/''')
+                _fp.write(str(self.module))
+        except FileExistsError:
+            os.unlink(fp)
+            self.create_output(fp)
+        except FileNotFoundError:
+            dir = fp.split('/')[0]
+            os.makedirs(dir)
+            self.create_output(fp)

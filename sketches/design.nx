@@ -1,6 +1,5 @@
-# -*- python -*-
-
 y = 'x'
 
-def main():
-    print('Hello, World!') # type: ignore
+def main() {
+    print!(y)
+}

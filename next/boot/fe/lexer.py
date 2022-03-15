@@ -51,14 +51,14 @@ class Lexer:
         except IndexError:
             # we have reached the end
             return
+
         letters = _line
 
-        cur_letter = 0
-
-        cur_letter += 1
+        cur_letter = -1
 
         # NOTE: This is only for builtin functions, and is not finished.
         for letter in letters:
+            cur_letter += 1
             token = None
             value = None
 
@@ -93,10 +93,6 @@ class Lexer:
                 token = 'EQ'
                 value = None
 
-            elif letter == '==':
-                token = 'EQEQ'
-                value = None
-
             elif letter == '\'' or letter == '"':
                 token = 'QUOTE'
                 value = None
@@ -104,6 +100,32 @@ class Lexer:
             elif letter in strings or letter in STRINGS:
                 token = 'STRING'
                 value = letter
+
+            elif letter == '(':
+                token = 'L-PAREN'
+                value = None
+            
+            elif letter == ')':
+                token = 'R-PAREN'
+                value = None
+
+            elif letter == '+':
+                token = 'PLUS'
+                value = None
+
+            elif letter == '-':
+                token = 'NEGATIVE'
+                value = None
+
+            elif letter == ',':
+                token = 'NEXT'
+                value = None
+
+            elif letter == '{':
+                token = 'METHOD-START'
+            
+            elif letter == '}':
+                token = 'METHOD-END'
 
             else:
                 raise NotImplementedError(f'Invalid Syntax: {letter} is an illegal character')

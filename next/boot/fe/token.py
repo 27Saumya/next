@@ -11,6 +11,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+import sys
 from typing import Any
 
 class Token:
@@ -20,3 +21,6 @@ class Token:
 
     def __repr__(self) -> str:
         return f'{self.type!r}:{self.value!r}'
+
+    def _raise_error(self, msg: str, type: str):
+        sys.stderr.write(f'{type}: {msg}')

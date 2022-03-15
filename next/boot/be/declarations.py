@@ -11,6 +11,8 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+
+from typing import Any
 from llvmlite import ir, binding as _binding
 
 class Delarator:
@@ -23,3 +25,10 @@ class Delarator:
         voidptr_ty = ir.IntType(8).as_pointer()
         print_ty = ir.FunctionType(ir.IntType(32), [voidptr_ty], True)
         self.print = ir.Function(self.module, print_ty, 'print')
+
+    def _declare_builtins(self):
+        self.int_ = ir.IntType(128)
+        self.float_ = ir.FloatType()
+
+    def _declare_constant(self, type: ir.Type, value: Any):
+        return ir.Constant(type, value)
