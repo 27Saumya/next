@@ -61,7 +61,9 @@ class Configurator:
                 _fp.write('''Signature: 8a477f597d28d172789f06886806bc55
 # This file is a cache directory tag created by next.
 # For information about cache directory tags, see:
-#	http://www.brynosaurus.com/cachedir/''')
+#	http://www.brynosaurus.com/cachedir/
+
+''')
                 _fp.write(str(self.module))
         except FileExistsError:
             os.unlink(fp)
