@@ -1,14 +1,12 @@
-This is the next programming language version 0.1
+# This is the next programming language version 0.1
 
 The language itself it a purely pythonic implementation.
 
-Building
---------
+## Building
 
 There is currently no way to *properly* build.
 
-Compiling Code
---------------
+## Compiling Code
 
 first make you test file, i.e. `test.py`
 
@@ -44,6 +42,10 @@ this can be done using `llc`.
 Firstly, download llc, it's just a google search.
 
 Then type the following `llc -filetype=obj -o main.o`.
+
 it should then give you a `main.o` file, you will now want to compile this to a executable.
-You can do this using any compiler you want, for this we will use `gcc`, like so: `gcc main.o -o main` 
+
+You can do this using any compiler you want, for this we will use `gcc`, 
+
+like so: `gcc main.o -o main` 
 and it should finally give you a `.exe`(or something else for unix-like systems) which you can run.
