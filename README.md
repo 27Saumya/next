@@ -8,7 +8,7 @@ There is currently no way to *properly* build.
 
 ## Compiling Code
 
-first make you test file, i.e. `test.py`
+first make your test file, i.e. `test.py`
 
 and add the following:
 
@@ -41,7 +41,7 @@ this can be done using `llc`.
 
 Firstly, download llc, it's just a google search.
 
-Then type the following `llc -filetype=obj -o main.o`.
+Then type the following `llc .cachedir/CACHE_MAIN.ll -filetype=obj -o main.o`.
 
 it should then give you a `main.o` file, you will now want to compile this to a executable.
 
