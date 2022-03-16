@@ -12,7 +12,7 @@ first make you test file, i.e. `test.py`
 
 and add the following:
 
-```nx
+```py
 import next
 
 config = next.Configurator()
